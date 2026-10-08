@@ -1,15 +1,8 @@
-#!/bin/bash
-# test_log_archiver.sh
-# Покрывает основные сценарии работы log_archiver.sh
-
-echo "==========================================="
 echo " ТЕСТИРОВАНИЕ log_archiver.sh"
-echo "==========================================="
 
 PASS=0
 FAIL=0
 
-#Утилита: очистка окружения
 cleanup() {
     sudo rm -rf /log/* 2>/dev/null
     sudo rm -rf /backup/* 2>/dev/null
@@ -35,13 +28,11 @@ fi
 echo ""
 echo "--- ТЕСТ 2: Порог 0%, M=3 (архив с 3 файлами) ---"
 cleanup
-# Создаём 5 файлов с разным временем модификации
 touch -d "2023-01-01 10:00:00" /log/old1.log
 touch -d "2023-02-01 10:00:00" /log/old2.log
 touch -d "2023-03-01 10:00:00" /log/old3.log
 touch -d "2023-04-01 10:00:00" /log/new1.log
 touch -d "2023-05-01 10:00:00" /log/new2.log
-# Заполняем диск на ~80% (8 МБ из 10 МБ)
 sudo dd if=/dev/zero of=/log/dummy.bin bs=1M count=8 status=none
 
 ./log_archiver.sh /log 0 3 > /tmp/test2.out 2>&1
@@ -123,9 +114,7 @@ fi
 #ИТОГИ
 cleanup
 echo ""
-echo "==========================================="
 echo " ИТОГИ: PASS=$PASS  FAIL=$FAIL"
-echo "==========================================="
 
 if [ "$FAIL" -gt 0 ]; then
     exit 1
