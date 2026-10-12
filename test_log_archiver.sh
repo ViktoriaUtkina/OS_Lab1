@@ -4,8 +4,8 @@ PASS=0
 FAIL=0
 
 cleanup() {
-    sudo rm -rf /log/* 2>/dev/null
-    sudo rm -rf /backup/* 2>/dev/null
+    rm -rf /log/* 2>/dev/null
+    rm -rf /backup/* 2>/dev/null
 }
 
 #ТЕСТ 1: Порог не превышен
@@ -33,7 +33,7 @@ touch -d "2023-02-01 10:00:00" /log/old2.log
 touch -d "2023-03-01 10:00:00" /log/old3.log
 touch -d "2023-04-01 10:00:00" /log/new1.log
 touch -d "2023-05-01 10:00:00" /log/new2.log
-sudo dd if=/dev/zero of=/log/dummy.bin bs=1M count=8 status=none
+dd if=/dev/zero of=/log/dummy.bin bs=1M count=4 status=none
 
 ./log_archiver.sh /log 0 3 > /tmp/test2.out 2>&1
 
@@ -64,7 +64,7 @@ cleanup
 touch -d "2020-01-01" /log/oldest.log
 touch -d "2021-01-01" /log/middle.log
 touch -d "2022-01-01" /log/newest.log
-sudo dd if=/dev/zero of=/log/dummy.bin bs=1M count=8 status=none
+dd if=/dev/zero of=/log/dummy.bin bs=1M count=4 status=none
 
 ./log_archiver.sh /log 0 2 > /tmp/test3.out 2>&1
 ARCHIVE=$(ls -1 /backup/*.tar.gz 2>/dev/null | head -1)

@@ -1,3 +1,4 @@
+#!/bin/bash
 #1. Проверка аргументов
 if [ "$#" -ne 3 ]; then
     echo "Использование: $0 <путь_к_log> <порог_в_процентах_N> <кол_во_файлов_M>"
@@ -53,7 +54,7 @@ ARCHIVE_PATH="$BACKUP_DIR/$ARCHIVE_NAME"
         | head -n "$FILES_COUNT" \
         | cut -f2- \
         | tr '\n' '\0' \
-        | tar -czf "$ARCHIVE_PATH" --null -T -
+        | tar -czf "$ARCHIVE_PATH" --null -T - 2>/dev/null
 } || true
 
 #8. Проверяем результат
